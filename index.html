@@ -3,142 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bag Shop - ร้านกระเป๋าออนไลน์</title>
+    <title>BLUE LUXE - Premium Bag Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .page { display: none; }
-        .active { display: block; }
+        @import url('https://fonts.googleapis.com/css2?family=Anuphan:wght@300;400;600;700&display=swap');
+        body { font-family: 'Anuphan', sans-serif; }
+        .fade-in { animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-slate-50 text-slate-900">
 
-    <nav class="bg-slate-900 text-white p-4 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold cursor-pointer" onclick="showPage('home')">BAG LUXURY</h1>
-            <ul class="flex space-x-6">
-                <li class="cursor-pointer hover:text-blue-400" onclick="showPage('home')">หน้าหลัก</li>
-                <li class="cursor-pointer hover:text-blue-400" onclick="showPage('member')">สมาชิก</li>
-                <li class="relative cursor-pointer hover:text-blue-400" onclick="showPage('cart')">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-xs rounded-full px-1">0</span>
-                </li>
-            </ul>
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-blue-50 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center cursor-pointer" onclick="showView('home')">
+                    <i class="fas fa-box text-blue-600 text-2xl"></i>
+                    <span class="ml-2 text-xl font-bold text-slate-800 tracking-tight">BLUE LUXE</span>
+                </div>
+                
+                <div class="hidden md:flex space-x-8">
+                    <button onclick="showView('home')" class="text-sm font-medium text-slate-500 hover:text-blue-500 transition">หน้าหลัก</button>
+                    <button onclick="showView('products')" class="text-sm font-medium text-slate-500 hover:text-blue-500 transition">สินค้าทั้งหมด</button>
+                    <button onclick="showView('member')" class="text-sm font-medium text-slate-500 hover:text-blue-500 transition">สมาชิก</button>
+                </div>
+
+                <div class="flex items-center space-x-5">
+                    <div id="memberBadge" class="hidden lg:flex items-center gap-1 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+                        <i class="fas fa-tag text-amber-600 text-[10px]"></i>
+                        <span class="text-[10px] font-bold text-amber-700 uppercase">Member 20% OFF</span>
+                    </div>
+                    
+                    <div class="relative cursor-pointer group" onclick="showView('cart')">
+                        <i class="fas fa-shopping-cart text-slate-600 group-hover:text-blue-600 transition"></i>
+                        <span id="cartCount" class="hidden absolute -top-2 -right-2 bg-blue-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-white">0</span>
+                    </div>
+
+                    <div class="cursor-pointer group flex items-center gap-2" onclick="showView('member')">
+                        <i id="userIcon" class="fas fa-user text-slate-600 group-hover:text-blue-600 transition"></i>
+                        <span id="userNameDisplay" class="text-xs font-bold text-slate-700 hidden sm:block"></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <section id="home" class="page active container mx-auto py-10">
-        <h2 class="text-3xl font-bold text-center mb-8">สินค้ามาใหม่</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-            <div class="bg-white rounded-lg shadow-md overflow-hidden transition hover:scale-105">
-                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=500" alt="Bag" class="w-full h-64 object-cover">
-                <div class="p-4">
-                    <h3 class="text-xl font-semibold">Leather Handbag</h3>
-                    <p class="text-gray-600">กระเป๋าหนังแท้ ดีไซน์เรียบหรู</p>
-                    <p class="text-blue-600 font-bold mt-2">฿2,500</p>
-                    <button onclick="addToCart('Leather Handbag', 2500)" class="mt-4 w-full bg-slate-800 text-white py-2 rounded hover:bg-slate-700">เพิ่มลงตะกร้า</button>
+    <!-- Main Content Containers -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- View: Home -->
+        <section id="view-home" class="fade-in">
+            <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 text-white rounded-3xl p-8 md:p-12 mb-12 flex flex-col md:flex-row items-center justify-between shadow-xl relative overflow-hidden">
+                <div class="z-10 text-center md:text-left mb-8 md:mb-0">
+                    <div id="heroMemberTag" class="hidden bg-amber-400 text-blue-900 px-4 py-1 rounded-full font-black text-xs shadow-lg mb-4 inline-block">
+                        MEMBER EXCLUSIVE: 20% OFF
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Azure Collection<br>Summer 2024</h2>
+                    <p class="text-blue-100 mb-8 max-w-md text-lg">สัมผัสความหรูหราในทุกการเดินทางกับกระเป๋าคอลเลกชันใหม่ล่าสุด</p>
+                    <button onclick="showView('products')" class="bg-white text-blue-900 px-10 py-3.5 rounded-full font-bold hover:bg-blue-50 transition-all transform hover:scale-105 active:scale-95 shadow-lg">ไปที่หน้าสินค้า</button>
                 </div>
+                <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=400" class="w-72 h-72 object-cover rounded-2xl shadow-2xl rotate-2 relative z-10 border-4 border-white/10" alt="Hero Bag">
             </div>
-            <div class="bg-white rounded-lg shadow-md overflow-hidden transition hover:scale-105">
-                <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=500" alt="Bag" class="w-full h-64 object-cover">
-                <div class="p-4">
-                    <h3 class="text-xl font-semibold">Urban Backpack</h3>
-                    <p class="text-gray-600">กระเป๋าเป้สำหรับสายลุย</p>
-                    <p class="text-blue-600 font-bold mt-2">฿1,800</p>
-                    <button onclick="addToCart('Urban Backpack', 1800)" class="mt-4 w-full bg-slate-800 text-white py-2 rounded hover:bg-slate-700">เพิ่มลงตะกร้า</button>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <section id="member" class="page container mx-auto py-10 max-w-md">
-        <div class="bg-white p-8 rounded-lg shadow-lg">
-            <h2 class="text-2xl font-bold mb-6 text-center">เข้าสู่ระบบ / สมัครสมาชิก</h2>
-            <form onsubmit="alert('เข้าสู่ระบบสำเร็จ!'); return false;">
-                <div class="mb-4">
-                    <label class="block mb-2">อีเมล</label>
-                    <input type="email" class="w-full border p-2 rounded" required>
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-8">
+                    <h3 class="text-2xl font-bold">สินค้าแนะนำ</h3>
+                    <button onclick="showView('products')" class="text-blue-600 font-bold hover:underline">ดูทั้งหมด <i class="fas fa-chevron-right text-xs"></i></button>
                 </div>
-                <div class="mb-6">
-                    <label class="block mb-2">รหัสผ่าน</label>
-                    <input type="password" class="w-full border p-2 rounded" required>
+                <div id="featured-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Featured products will be injected here -->
                 </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
-                <p class="mt-4 text-center text-sm">ยังไม่มีบัญชี? <a href="#" class="text-blue-500 underline">สมัครสมาชิก</a></p>
-            </form>
-        </div>
-    </section>
+            </div>
+        </section>
 
-    <section id="cart" class="page container mx-auto py-10 px-4">
-        <h2 class="text-3xl font-bold mb-8">ตะกร้าสินค้าของคุณ</h2>
-        <div class="bg-white p-6 rounded-lg shadow">
-            <div id="cart-items" class="space-y-4">
-                <p class="text-gray-500">ไม่มีสินค้าในตะกร้า</p>
-            </div>
-            <hr class="my-4">
-            <div class="flex justify-between text-xl font-bold">
-                <span>ยอดรวมทั้งหมด:</span>
-                <span id="total-price">฿0</span>
-            </div>
-            <button onclick="showPage('payment')" class="mt-6 w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700">ไปที่หน้าชำระเงิน</button>
-        </div>
-    </section>
-
-    <section id="payment" class="page container mx-auto py-10 max-w-2xl px-4">
-        <h2 class="text-3xl font-bold mb-8 text-center">ชำระเงิน</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="font-bold mb-4">ช่องทางการโอนเงิน</h3>
-                <div class="border-2 border-dashed p-4 text-center">
-                    <p class="mb-2">ธนาคารกสิกรไทย</p>
-                    <p class="text-lg font-mono font-bold text-blue-600">123-4-56789-0</p>
-                    <p class="text-sm text-gray-500">ชื่อบัญชี: บจก. ขายกระเป๋า</p>
+        <!-- View: Products -->
+        <section id="view-products" class="hidden fade-in">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-6">
+                <div>
+                    <h3 class="text-3xl font-black text-slate-800 tracking-tight">รายการสินค้า</h3>
+                    <p class="text-slate-500">เลือกชมสไตล์ที่คุณชอบ</p>
+                </div>
+                <div id="category-filters" class="flex flex-wrap gap-2">
+                    <!-- Filters injected here -->
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="font-bold mb-4">แจ้งโอนเงิน</h3>
-                <form onsubmit="alert('ส่งข้อมูลสำเร็จ! เราจะรีบตรวจสอบ'); showPage('home'); return false;">
-                    <input type="file" class="mb-4 w-full border p-2 text-sm" required>
-                    <button class="w-full bg-blue-600 text-white py-2 rounded">ยืนยันการชำระเงิน</button>
+            <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <!-- Products injected here -->
+            </div>
+        </section>
+
+        <!-- View: Member -->
+        <section id="view-member" class="hidden fade-in max-w-md mx-auto">
+            <!-- Login/Profile content will be injected here -->
+            <div id="member-content"></div>
+        </section>
+
+        <!-- View: Cart -->
+        <section id="view-cart" class="hidden fade-in">
+            <h2 class="text-3xl font-black text-slate-800 mb-8 flex items-center gap-3">
+                ตะกร้าสินค้า <span id="cartHeaderCount" class="text-blue-600 text-lg"></span>
+            </h2>
+            <div id="cart-container" class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <!-- Cart items and summary injected here -->
+            </div>
+        </section>
+
+        <!-- View: Payment -->
+        <section id="view-payment" class="hidden fade-in max-w-2xl mx-auto">
+            <div class="bg-white rounded-3xl p-8 border border-blue-50 shadow-2xl">
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="bg-blue-600 p-3 rounded-2xl shadow-lg">
+                        <i class="fas fa-check-circle text-white"></i>
+                    </div>
+                    <h2 class="text-3xl font-black text-slate-800">ชำระเงิน</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                    <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+                        <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full"></div> โอนเงินผ่านธนาคาร
+                        </h3>
+                        <p class="text-sm text-slate-400 font-medium">ธนาคารกสิกรไทย</p>
+                        <p class="text-lg font-black text-blue-700 tracking-wider">012-3-45678-9</p>
+                        <p class="text-xs text-slate-500">บจก. บลู ลักซ์ เทรดดิ้ง</p>
+                    </div>
+                    <div class="bg-blue-50 p-6 rounded-2xl border border-blue-100 flex flex-col justify-center items-center">
+                        <p class="text-blue-400 text-xs font-bold uppercase mb-1">ยอดสุทธิ</p>
+                        <p id="paymentTotal" class="text-3xl font-black text-blue-600">฿0</p>
+                    </div>
+                </div>
+                <form onsubmit="processPayment(event)">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-3">แนบหลักฐานการโอน</label>
+                            <div class="border-2 border-dashed border-blue-100 rounded-2xl p-8 text-center bg-blue-50/20 hover:bg-blue-50 transition relative cursor-pointer">
+                                <i class="fas fa-cloud-upload-alt text-blue-300 text-3xl mb-2"></i>
+                                <p class="text-sm text-blue-500 font-bold">คลิกเพื่ออัปโหลด</p>
+                                <input type="file" required class="absolute inset-0 opacity-0 cursor-pointer">
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-bold hover:bg-blue-600 transition-all">ยืนยันการชำระเงิน</button>
+                    </div>
                 </form>
             </div>
+        </section>
+    </main>
+
+    <footer class="bg-white border-t border-slate-100 py-12 mt-20">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-slate-400 text-sm">© 2024 Blue Luxe Bags. All rights reserved.</p>
         </div>
-    </section>
+    </footer>
 
     <script>
-        let cart = [];
-        let total = 0;
+        // Data
+        const products = [
+            { id: 1, name: 'Premium Leather Tote', price: 4500, category: 'Handbag', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=600' },
+            { id: 2, name: 'Classic Urban Backpack', price: 2900, category: 'Backpack', image: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=600' },
+            { id: 3, name: 'Midnight Crossbody', price: 1850, category: 'Sling', image: 'https://images.unsplash.com/photo-1598533023411-ca95f97bb091?q=80&w=600' },
+            { id: 4, name: 'Elegance Clutch', price: 3200, category: 'Luxury', image: 'https://images.unsplash.com/photo-1566150905458-1bf1fd15dcb4?q=80&w=600' },
+            { id: 5, name: 'Travel Duffel Bag', price: 5800, category: 'Travel', image: 'https://images.unsplash.com/photo-1547949003-9792a18a2601?q=80&w=600' },
+            { id: 6, name: 'Casual Canvas Bag', price: 1200, category: 'Casual', image: 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?q=80&w=600' },
+            { id: 7, name: 'Business Briefcase', price: 6500, category: 'Office', image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=600' },
+            { id: 8, name: 'Vintage Satchel', price: 3800, category: 'Casual', image: 'https://images.unsplash.com/photo-1594223274512-ad4803739b7c?q=80&w=600' },
+            { id: 9, name: 'Mini Leather Backpack', price: 2450, category: 'Backpack', image: 'https://images.unsplash.com/photo-1581605405669-fcdf81165afa?q=80&w=600' },
+            { id: 10, name: 'Gold Chain Evening Bag', price: 4900, category: 'Luxury', image: 'https://images.unsplash.com/photo-1591561954557-26941169b49e?q=80&w=600' }
+        ];
 
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(pageId).classList.add('active');
-            window.scrollTo(0,0);
+        // State
+        let state = {
+            view: 'home',
+            isLoggedIn: false,
+            user: null,
+            cart: [],
+            filter: 'All',
+            auth: { email: '123@123', password: '123456' }
+        };
+
+        // Core Functions
+        function getPrice(originalPrice) {
+            return state.isLoggedIn ? Math.floor(originalPrice * 0.8) : originalPrice;
         }
 
-        function addToCart(name, price) {
-            cart.push({name, price});
-            total += price;
-            updateCart();
-            alert(`เพิ่ม ${name} ลงตะกร้าแล้ว!`);
+        function showView(viewName) {
+            state.view = viewName;
+            document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
+            document.getElementById(`view-${viewName}`).classList.remove('hidden');
+            window.scrollTo(0, 0);
+            render();
         }
 
-        function updateCart() {
-            document.getElementById('cart-count').innerText = cart.length;
-            const cartList = document.getElementById('cart-items');
-            const totalDisplay = document.getElementById('total-price');
-            
-            if(cart.length === 0) {
-                cartList.innerHTML = '<p class="text-gray-500">ไม่มีสินค้าในตะกร้า</p>';
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const cartItem = { 
+                ...product, 
+                cartId: Date.now(),
+                finalPrice: getPrice(product.price)
+            };
+            state.cart.push(cartItem);
+            render();
+        }
+
+        function removeFromCart(cartId) {
+            state.cart = state.cart.filter(item => item.cartId !== cartId);
+            render();
+        }
+
+        function login(event) {
+            event.preventDefault();
+            const email = event.target.email.value;
+            const password = event.target.password.value;
+
+            if (email === state.auth.email && password === state.auth.password) {
+                state.isLoggedIn = true;
+                state.user = 'VIP Member';
+                // Update prices in cart
+                state.cart = state.cart.map(item => ({...item, finalPrice: Math.floor(item.price * 0.8)}));
+                showView('home');
             } else {
-                cartList.innerHTML = cart.map(item => `
-                    <div class="flex justify-between items-center border-b pb-2">
-                        <span>${item.name}</span>
-                        <span class="font-bold">฿${item.price}</span>
-                    </div>
-                `).join('');
+                alert('อีเมลหรือรหัสผ่านไม่ถูกต้อง');
             }
-            totalDisplay.innerText = `฿${total}`;
         }
+
+        function logout() {
+            state.isLoggedIn = false;
+            state.user = null;
+            state.cart = state.cart.map(item => ({...item, finalPrice: item.price}));
+            showView('home');
+        }
+
+        function processPayment(e) {
+            e.preventDefault();
+            alert('ชำระเงินสำเร็จ! ขอบคุณที่ใช้บริการ');
+            state.cart = [];
+            showView('home');
+        }
+
+        // Renderers
+        function render() {
+            // Navbar updates
+            document.getElementById('cartCount').textContent = state.cart.length;
+            document.getElementById('cartCount').classList.toggle('hidden', state.cart.length === 0);
+            document.getElementById('memberBadge').classList.toggle('hidden', !state.isLoggedIn);
+            document.getElementById('heroMemberTag').classList.toggle('hidden', !state.isLoggedIn);
+            document.getElementById('userIcon').classList.toggle('text-blue-600', state.isLoggedIn);
+            document.getElementById('userNameDisplay').textContent = state.isLoggedIn ? `คุณ ${state.user}` : '';
+
+            if (state.view === 'home') renderHome();
+            if (state.view === 'products') renderProducts();
+            if (state.view === 'member') renderMember();
+            if (state.view === 'cart') renderCart();
+        }
+
+        function renderHome() {
+            const grid = document.getElementById('featured-grid');
+            grid.innerHTML = products.slice(0, 4).map(p => `
+                <div class="cursor-pointer group" onclick="showView('products')">
+                    <div class="aspect-square rounded-2xl overflow-hidden mb-3">
+                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    </div>
+                    <h4 class="font-bold text-sm truncate">${p.name}</h4>
+                    <div class="flex items-center gap-2">
+                        <p class="text-blue-600 font-bold">฿${getPrice(p.price).toLocaleString()}</p>
+                        ${state.isLoggedIn ? `<p class="text-[10px] text-slate-400 line-through">฿${p.price.toLocaleString()}</p>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderProducts() {
+            const filters = document.getElementById('category-filters');
+            const categories = ['All', 'Handbag', 'Backpack', 'Sling', 'Luxury', 'Travel'];
+            filters.innerHTML = categories.map(cat => `
+                <button onclick="state.filter='${cat}'; renderProducts()" class="px-4 py-2 rounded-xl text-xs font-bold border transition ${state.filter === cat ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white text-slate-500'}">${cat}</button>
+            `).join('');
+
+            const grid = document.getElementById('products-grid');
+            const filtered = state.filter === 'All' ? products : products.filter(p => p.category === state.filter);
+            
+            grid.innerHTML = filtered.map(p => `
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-xl transition-all group">
+                    <div class="relative h-60 overflow-hidden">
+                        <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        ${state.isLoggedIn ? '<div class="absolute bottom-3 left-3 bg-red-500 text-white px-2 py-1 rounded-lg text-[10px] font-bold">-20% VIP</div>' : ''}
+                    </div>
+                    <div class="p-5">
+                        <h4 class="font-bold text-slate-800 mb-1 truncate">${p.name}</h4>
+                        <div class="flex items-baseline gap-2 mb-4">
+                            <p class="text-blue-600 font-bold text-xl">฿${getPrice(p.price).toLocaleString()}</p>
+                            ${state.isLoggedIn ? `<p class="text-sm text-slate-400 line-through">฿${p.price.toLocaleString()}</p>` : ''}
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="w-full bg-slate-900 text-white py-3 rounded-xl font-semibold hover:bg-blue-600 transition-all flex items-center justify-center gap-2">
+                            <i class="fas fa-shopping-bag"></i> เพิ่มลงตะกร้า
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderMember() {
+            const container = document.getElementById('member-content');
+            if (state.isLoggedIn) {
+                container.innerHTML = `
+                    <div class="bg-white p-8 rounded-3xl shadow-xl text-center border border-blue-50">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user text-blue-600 text-3xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold">คุณ ${state.user}</h2>
+                        <div class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-[10px] font-black inline-block mt-2">VIP MEMBER</div>
+                        <div class="grid grid-cols-2 gap-4 my-8">
+                            <div class="bg-slate-50 p-4 rounded-2xl text-left">
+                                <p class="text-[10px] text-slate-400 font-black">คะแนน</p>
+                                <p class="font-bold">1,250</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl text-left">
+                                <p class="text-[10px] text-slate-400 font-black">ส่วนลด</p>
+                                <p class="font-bold">20% Off</p>
+                            </div>
+                        </div>
+                        <button onclick="logout()" class="w-full py-3 rounded-xl border border-slate-100 text-slate-400 hover:bg-slate-50 transition">ออกจากระบบ</button>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="bg-white p-8 rounded-3xl shadow-xl border border-blue-50">
+                        <div class="text-center mb-8">
+                            <h2 class="text-3xl font-black text-slate-800">เข้าสู่ระบบ</h2>
+                            <p class="text-slate-400 text-sm mt-2">ล็อกอินเพื่อรับส่วนลดสมาชิก 20%</p>
+                        </div>
+                        <form onsubmit="login(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">อีเมล</label>
+                                <input name="email" type="email" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-blue-500 outline-none" placeholder="123@123">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-bold text-slate-400 uppercase mb-2">รหัสผ่าน</label>
+                                <input name="password" type="password" required class="w-full px-5 py-3.5 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-blue-500 outline-none" placeholder="123456">
+                            </div>
+                            <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 transition">เข้าสู่ระบบ</button>
+                        </form>
+                    </div>
+                `;
+            }
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-container');
+            document.getElementById('cartHeaderCount').textContent = `(${state.cart.length})`;
+            
+            if (state.cart.length === 0) {
+                container.innerHTML = `<div class="lg:col-span-3 text-center py-20 bg-white rounded-3xl border-2 border-dashed border-blue-100">
+                    <p class="text-slate-400 mb-4">ไม่มีสินค้าในตะกร้า</p>
+                    <button onclick="showView('products')" class="bg-blue-600 text-white px-8 py-2 rounded-xl font-bold">ไปเลือกสินค้า</button>
+                </div>`;
+                return;
+            }
+
+            const total = state.cart.reduce((s, i) => s + i.finalPrice, 0);
+            
+            const itemsHtml = state.cart.map(item => `
+                <div class="bg-white p-4 rounded-2xl border border-blue-50 flex items-center gap-4">
+                    <img src="${item.image}" class="w-20 h-20 object-cover rounded-xl">
+                    <div class="flex-1">
+                        <h4 class="font-bold text-slate-800 text-sm">${item.name}</h4>
+                        <p class="text-blue-600 font-bold">฿${item.finalPrice.toLocaleString()}</p>
+                    </div>
+                    <button onclick="removeFromCart(${item.cartId})" class="p-2 text-slate-300 hover:text-red-500 transition"><i class="fas fa-trash"></i></button>
+                </div>
+            `).join('');
+
+            container.innerHTML = `
+                <div class="lg:col-span-2 space-y-4">${itemsHtml}</div>
+                <div class="bg-white p-8 rounded-3xl border border-blue-50 shadow-sm h-fit">
+                    <h3 class="font-bold mb-6">สรุปรายการ</h3>
+                    <div class="space-y-3 mb-6">
+                        <div class="flex justify-between text-slate-500 text-sm"><span>ยอดรวม</span><span>฿${total.toLocaleString()}</span></div>
+                        <div class="flex justify-between text-green-500 text-sm font-bold"><span>ค่าจัดส่ง</span><span>ฟรี</span></div>
+                        <div class="border-t pt-3 flex justify-between font-black text-xl"><span>ทั้งหมด</span><span class="text-blue-600">฿${total.toLocaleString()}</span></div>
+                    </div>
+                    <button onclick="document.getElementById('paymentTotal').textContent='฿'+'${total.toLocaleString()}'; showView('payment')" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-100">ชำระเงิน</button>
+                </div>
+            `;
+        }
+
+        // Initial render
+        render();
     </script>
 </body>
 </html>
