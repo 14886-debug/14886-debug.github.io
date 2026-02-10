@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bag Shop - ร้านกระเป๋าออนไลน์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .page { display: none; }
+        .active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <nav class="bg-slate-900 text-white p-4 sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold cursor-pointer" onclick="showPage('home')">BAG LUXURY</h1>
+            <ul class="flex space-x-6">
+                <li class="cursor-pointer hover:text-blue-400" onclick="showPage('home')">หน้าหลัก</li>
+                <li class="cursor-pointer hover:text-blue-400" onclick="showPage('member')">สมาชิก</li>
+                <li class="relative cursor-pointer hover:text-blue-400" onclick="showPage('cart')">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-xs rounded-full px-1">0</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="home" class="page active container mx-auto py-10">
+        <h2 class="text-3xl font-bold text-center mb-8">สินค้ามาใหม่</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition hover:scale-105">
+                <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=500" alt="Bag" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Leather Handbag</h3>
+                    <p class="text-gray-600">กระเป๋าหนังแท้ ดีไซน์เรียบหรู</p>
+                    <p class="text-blue-600 font-bold mt-2">฿2,500</p>
+                    <button onclick="addToCart('Leather Handbag', 2500)" class="mt-4 w-full bg-slate-800 text-white py-2 rounded hover:bg-slate-700">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden transition hover:scale-105">
+                <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?q=80&w=500" alt="Bag" class="w-full h-64 object-cover">
+                <div class="p-4">
+                    <h3 class="text-xl font-semibold">Urban Backpack</h3>
+                    <p class="text-gray-600">กระเป๋าเป้สำหรับสายลุย</p>
+                    <p class="text-blue-600 font-bold mt-2">฿1,800</p>
+                    <button onclick="addToCart('Urban Backpack', 1800)" class="mt-4 w-full bg-slate-800 text-white py-2 rounded hover:bg-slate-700">เพิ่มลงตะกร้า</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="member" class="page container mx-auto py-10 max-w-md">
+        <div class="bg-white p-8 rounded-lg shadow-lg">
+            <h2 class="text-2xl font-bold mb-6 text-center">เข้าสู่ระบบ / สมัครสมาชิก</h2>
+            <form onsubmit="alert('เข้าสู่ระบบสำเร็จ!'); return false;">
+                <div class="mb-4">
+                    <label class="block mb-2">อีเมล</label>
+                    <input type="email" class="w-full border p-2 rounded" required>
+                </div>
+                <div class="mb-6">
+                    <label class="block mb-2">รหัสผ่าน</label>
+                    <input type="password" class="w-full border p-2 rounded" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Login</button>
+                <p class="mt-4 text-center text-sm">ยังไม่มีบัญชี? <a href="#" class="text-blue-500 underline">สมัครสมาชิก</a></p>
+            </form>
+        </div>
+    </section>
+
+    <section id="cart" class="page container mx-auto py-10 px-4">
+        <h2 class="text-3xl font-bold mb-8">ตะกร้าสินค้าของคุณ</h2>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <div id="cart-items" class="space-y-4">
+                <p class="text-gray-500">ไม่มีสินค้าในตะกร้า</p>
+            </div>
+            <hr class="my-4">
+            <div class="flex justify-between text-xl font-bold">
+                <span>ยอดรวมทั้งหมด:</span>
+                <span id="total-price">฿0</span>
+            </div>
+            <button onclick="showPage('payment')" class="mt-6 w-full bg-green-600 text-white py-3 rounded-lg font-bold hover:bg-green-700">ไปที่หน้าชำระเงิน</button>
+        </div>
+    </section>
+
+    <section id="payment" class="page container mx-auto py-10 max-w-2xl px-4">
+        <h2 class="text-3xl font-bold mb-8 text-center">ชำระเงิน</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold mb-4">ช่องทางการโอนเงิน</h3>
+                <div class="border-2 border-dashed p-4 text-center">
+                    <p class="mb-2">ธนาคารกสิกรไทย</p>
+                    <p class="text-lg font-mono font-bold text-blue-600">123-4-56789-0</p>
+                    <p class="text-sm text-gray-500">ชื่อบัญชี: บจก. ขายกระเป๋า</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h3 class="font-bold mb-4">แจ้งโอนเงิน</h3>
+                <form onsubmit="alert('ส่งข้อมูลสำเร็จ! เราจะรีบตรวจสอบ'); showPage('home'); return false;">
+                    <input type="file" class="mb-4 w-full border p-2 text-sm" required>
+                    <button class="w-full bg-blue-600 text-white py-2 rounded">ยืนยันการชำระเงิน</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function addToCart(name, price) {
+            cart.push({name, price});
+            total += price;
+            updateCart();
+            alert(`เพิ่ม ${name} ลงตะกร้าแล้ว!`);
+        }
+
+        function updateCart() {
+            document.getElementById('cart-count').innerText = cart.length;
+            const cartList = document.getElementById('cart-items');
+            const totalDisplay = document.getElementById('total-price');
+            
+            if(cart.length === 0) {
+                cartList.innerHTML = '<p class="text-gray-500">ไม่มีสินค้าในตะกร้า</p>';
+            } else {
+                cartList.innerHTML = cart.map(item => `
+                    <div class="flex justify-between items-center border-b pb-2">
+                        <span>${item.name}</span>
+                        <span class="font-bold">฿${item.price}</span>
+                    </div>
+                `).join('');
+            }
+            totalDisplay.innerText = `฿${total}`;
+        }
+    </script>
+</body>
+</html>
